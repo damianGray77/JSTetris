@@ -362,17 +362,6 @@ function InitBlocks() {
 	}
 }
 
-function Render() {
-	var toShow = [];
-	for (var x = 0; x < _BOARD_SIZE_X; ++x) {
-		for (var y = 0; y < _BOARD_SIZE_Y; ++y) {
-			toShow.push('<div class="block b' + board[x][y] + '"></div>');
-		}
-	}
-
-	$('#board').html(toShow.join(''));
-}
-
 function InitEvents() {
 	$(window).keydown(KeyDown);
 }
