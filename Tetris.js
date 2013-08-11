@@ -39,6 +39,7 @@ var cBlockX = null;
 var cBlockY = null;
 var dropHandle = null;
 var dropRate = 750;
+var hardDropping = true;
 var score = 0;
 
 function EndGame() {
@@ -81,10 +82,12 @@ function DropBlock() {
 		dropHandle = null;
 	}
 
+    var currentDropRate = hardDropping ? 10 : dropRate;
+
 	dropHandle = setTimeout(function () {
 			MoveBlock(0, 1);
 			DropBlock();
-	}, dropRate);
+	}, currentDropRate);
 }
 
 function GetNextBlock() {
@@ -108,7 +111,7 @@ function GetNextBlock() {
 	cBlockRot = 0;
 	cBlockX = parseInt((_BOARD_SIZE_X - _BLOCK_SIZE) / 2);
 	cBlockY = -_BLOCK_SIZE;
-	dropRate = 1000;
+    hardDropping = false;
 }
 
 function Clamp(num, min, max) {
@@ -320,7 +323,7 @@ function InitBoard() {
 		}
 	}
 
-	nextBlock = []
+	nextBlock = [];
 	for (var y = 0; y < _BLOCK_SIZE; ++y) {
 		nextBlock[y] = [];
 
@@ -391,7 +394,7 @@ function KeyDown(e, ui) {
 			MoveBlock(1, 0);
 			break;
 		case KEYS.up:
-			dropRate = 10;
+            hardDropping = true;
 			DropBlock();
 			break;
 		case KEYS.down:
