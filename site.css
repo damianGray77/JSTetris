@@ -1,0 +1,140 @@
+body {
+  margin: 0px;
+	background-color: #310;
+}
+
+#legend {
+	position: absolute;
+	text-align: left;
+	top: 10px;
+	left: 10px;
+	color: #000;
+	font-family: Verdana, Tahoma, Arial, Sans-Serif;
+	font-size: 10px;
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+#content {
+	text-align: center;
+}
+
+#table {
+	position: relative;
+	display: inline-block;
+	text-align: center;
+	background-color: #fff;
+	width: 420px;
+	padding: 10px;
+	margin: 10px;
+	border-radius: 5px;
+	box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#screen {
+	background-color: #777;
+	padding: 10px;
+	display: inline-block;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.33);
+}
+
+#board, #dash {
+	width: 160px;
+	overflow: hidden;
+}
+
+#board {
+	background-color: #000;
+	height: 352px;
+	margin-bottom: 10px;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.33);
+	position: relative;
+}
+
+#pause, #game_over {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	background-color: rgba(0, 0, 0, 0.75);
+
+	color: #fff;
+	font-family: Verdana, Tahoma, Arial, Sans-Serif;
+	font-size: 37px;
+	font-weight: bold;
+	text-shadow: 0px 0px 20px #fff;
+	text-align: center;
+	padding-top: 140px;
+}
+
+#dash {
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.33);
+	height: 100px;
+	background-color: #999;
+	text-align: left;
+}
+
+#next_block {
+	float: right;
+	background-color: #000;
+	padding: 5px;
+	width: 40px;
+	height: 40px;
+	margin: 8px;
+
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.33);
+	border-radius: 5px;
+}
+
+#score {
+	float: left;
+	margin: 8px;
+	color: #000;
+	font-family: Verdana, Tahoma, Arial, Sans-Serif;
+	font-size: 12px;
+	text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.block {
+	width: 16px;
+	height: 16px;
+	float: left;
+	background-color: transparent;
+}
+
+#next_block > .block {
+	width: 10px;
+	height: 10px;
+}
+
+.b1, .b2, .b3, .b4, .b5, .b6, .b7 {
+	box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.65), inset -1px -1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.b1 {
+	background-color: #f70000; /* red */
+}
+
+.b2 {
+	background-color: #9400ce; /* purple */
+}
+
+.b3 {
+	background-color: #00ffff; /* cyan */
+}
+
+.b4 {
+	background-color: #f700c6; /* magenta */
+}
+
+.b5 {
+	background-color: #ffff00; /* yellow */
+}
+
+.b6 {
+	background-color: #00ce29; /* green */
+}
+
+.b7 {
+	background-color: #0063c6; /* blue */
+}
