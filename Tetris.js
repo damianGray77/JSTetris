@@ -5,7 +5,7 @@ var _BOARD_SIZE_X = 10;
 var _BOARD_SIZE_Y = 22;
 
 var BLOCKS = [
-    0x0
+	  0x0
 	, [0x4444, 0x0F00, 0x4444, 0x0F00]
 	, [0x0660, 0x0660, 0x0660, 0x0660]
 	, [0x04E0, 0x4640, 0x0E40, 0x2620]
@@ -82,7 +82,7 @@ function DropBlock() {
 		dropHandle = null;
 	}
 
-    var currentDropRate = hardDropping ? 10 : dropRate;
+	var currentDropRate = hardDropping ? 10 : dropRate;
 
 	dropHandle = setTimeout(function () {
 			MoveBlock(0, 1);
@@ -111,7 +111,7 @@ function GetNextBlock() {
 	cBlockRot = 0;
 	cBlockX = parseInt((_BOARD_SIZE_X - _BLOCK_SIZE) / 2);
 	cBlockY = -_BLOCK_SIZE;
-    hardDropping = false;
+	hardDropping = false;
 }
 
 function Clamp(num, min, max) {
@@ -312,7 +312,6 @@ function ToggleBlock(show) {
 
 function InitBoard() {
 	board = [];
-	
 	for (var y = 0; y < _BOARD_SIZE_Y; ++y) {
 		board[y] = [];
 		
