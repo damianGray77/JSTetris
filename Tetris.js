@@ -16,7 +16,7 @@ var BLOCKS = [
 ];
 
 var KEYS = {
-	  esc: 27
+	esc: 27
 	, left: 37
 	, right: 39
 	, down: 40
@@ -39,6 +39,7 @@ var cBlockX = null;
 var cBlockY = null;
 var dropHandle = null;
 var dropRate = 750;
+var speedyDropRate = 10;
 var hardDropping = true;
 var score = 0;
 
@@ -47,7 +48,9 @@ function EndGame() {
 
 	clearTimeout(dropHandle);
 
-	$('#game_over').show();
+	var gameOverEl = window.document.getElementById('game_over');
+
+	gameOverEl.style.display = '';
 }
 
 function Run() {
@@ -60,15 +63,16 @@ function Run() {
 function PauseGame() {
 	running = false === running;
 
+	var pauseEl = window.document.getElementById('pause');
 	if (true === running) {
 		DropBlock();
 
-		$('#pause').hide();
+		pauseEl.style.display = 'none';
 	} else {
 		clearTimeout(dropHandle);
 		dropHandle = null;
 
-		$('#pause').show();
+		pauseEl.style.display = '';
 	}
 }
 
@@ -82,11 +86,11 @@ function DropBlock() {
 		dropHandle = null;
 	}
 
-	var currentDropRate = hardDropping ? 10 : dropRate;
+	var currentDropRate = hardDropping ? speedyDropRate : dropRate;
 
 	dropHandle = setTimeout(function () {
-			MoveBlock(0, 1);
-			DropBlock();
+		MoveBlock(0, 1);
+		DropBlock();
 	}, currentDropRate);
 }
 
@@ -107,7 +111,7 @@ function GetNextBlock() {
 			nextBlock[y][x].className = 'block' + (0 === nBlock[y][x] ? '' : ' b' + nBlockI);
 		}
 	}
-	
+
 	cBlockRot = 0;
 	cBlockX = parseInt((_BOARD_SIZE_X - _BLOCK_SIZE) / 2);
 	cBlockY = -_BLOCK_SIZE;
@@ -115,11 +119,11 @@ function GetNextBlock() {
 }
 
 function Clamp(num, min, max) {
-	if(num < min) {
+	if (num < min) {
 		return max;
 	}
 
-	if(num > max) {
+	if (num > max) {
 		return min;
 	}
 
@@ -137,7 +141,7 @@ function ReleaseBlock() {
 			var cX = x + cBlockX;
 
 			if (cY >= 0) {
-				$(board[cY][cX]).addClass('b' + cBlockI);
+				board[cY][cX].className = 'block b' + cBlockI;
 			} else {
 				if (y === _BLOCK_SIZE - 1) {
 					EndGame();
@@ -152,20 +156,18 @@ function ReleaseBlock() {
 }
 
 function AddScore(s) {
-	switch (s) {
-		case 1: score += 10; break;
-		case 2: score += 20; break;
-		case 3: score += 40; break;
-		case 4: score += 80; break;
+	score += 10 * Math.pow(2, s - 1);
+
+	var scoreEl = window.document.getElementById('score');
+	scoreEl.innerHTML = 'Score: ' + score;
+}
+
+function SpeedUp(amount) {
+	dropRate -= amount;
+
+	if (dropRate < speedyDropRate) {
+		dropRate = speedyDropRate;
 	}
-
-	dropRate -= s;
-
-	if (dropRate < 1) {
-		dropRate = 1;
-	}
-
-	$('#score').html('Score: ' + score);
 }
 
 function CheckLines() {
@@ -194,6 +196,7 @@ function CheckLines() {
 	if (true === clear) {
 		ClearRows(toRemove);
 		AddScore(removeNum);
+		SpeedUp(removeNum * 2);
 	}
 }
 
@@ -305,31 +308,44 @@ function ToggleBlock(show) {
 				continue;
 			}
 
-			$(board[cY][cX]).toggleClass('b' + cBlockI, show);
+			board[cY][cX].className = true === show
+				? 'block b' + cBlockI
+				: 'block'
+			;
 		}
 	}
 }
 
 function InitBoard() {
+	var boardEl = window.document.getElementById('board');
 	board = [];
 	for (var y = 0; y < _BOARD_SIZE_Y; ++y) {
 		board[y] = [];
-		
-		for (var x = 0; x < _BOARD_SIZE_X; ++x) {
-			board[y][x] = $('<div class="block" id="b_' + x + '_' + y + '"></div>')[0];
 
-			$('#board').append(board[y][x]);
+		for (var x = 0; x < _BOARD_SIZE_X; ++x) {
+			var div = document.createElement('div');
+			div.className = 'block';
+			div.id = 'b_' + x + '_' + y;
+
+			board[y][x] = div;
+
+			boardEl.appendChild(board[y][x]);
 		}
 	}
 
+	var nextBlockEl = window.document.getElementById('next_block');
 	nextBlock = [];
 	for (var y = 0; y < _BLOCK_SIZE; ++y) {
 		nextBlock[y] = [];
 
 		for (var x = 0; x < _BLOCK_SIZE; ++x) {
-			nextBlock[y][x] = $('<div class="block" id="n_' + x + '_' + y + '"></div>')[0];
+			var div = document.createElement('div');
+			div.className = 'block';
+			div.id = 'n_' + x + '_' + y;
 
-			$('#next_block').append(nextBlock[y][x]);
+			nextBlock[y][x] = div;
+
+			nextBlockEl.appendChild(nextBlock[y][x]);
 		}
 	}
 }
@@ -365,24 +381,33 @@ function InitBlocks() {
 }
 
 function InitEvents() {
-	$(window).keydown(KeyDown);
+	document.onkeydown = KeyDown;
 }
 
-function KeyDown(e, ui) {
-	e.stopPropagation();
-	e.preventDefault();
-	e.cancelBubble = true;
-	e.returnValue = false;
+function KeyDown(e) {
+	if (undefined === e) {
+		e = window.event;
+	}
+
+	var key = undefined == e.which ? e.keyCode : e.which;
+
+	if (undefined === e.stopPropagation) {
+		e.cancelBubble = true;
+		e.returnValue = false;
+	} else {
+		e.stopPropagation();
+		e.preventDefault();
+	}
 
 	if (false === running) {
-		if (KEYS.space === e.which) {
+		if (KEYS.space === key) {
 			PauseGame();
 		}
 
 		return;
 	}
 
-	switch (e.which) {
+	switch (key) {
 		case KEYS.esc:
 			EndGame();
 			break;
@@ -393,7 +418,7 @@ function KeyDown(e, ui) {
 			MoveBlock(1, 0);
 			break;
 		case KEYS.up:
-            hardDropping = true;
+			hardDropping = true;
 			DropBlock();
 			break;
 		case KEYS.down:
@@ -411,10 +436,10 @@ function KeyDown(e, ui) {
 	}
 }
 
-function Main(e, ui) {
+function Main() {
 	InitEvents();
 
 	Run();
 }
 
-$(document).ready(Main);
+window.onload = Main;
