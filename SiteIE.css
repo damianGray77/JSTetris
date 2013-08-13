@@ -1,0 +1,39 @@
+.block {
+	width: 12px;
+	height: 12px;
+	border: 2px solid transparent;
+}
+
+#next_block > .block {
+	width: 8px;
+	height: 8px;
+	border-width: 1px;
+}
+
+.b1 { /* red */
+	border-color: #fca6a6 #c60000 #c60000 #fca6a6;
+}
+
+.b2 { /* purple */
+	border-color: #daa6ee #7600a5 #7600a5 #daa6ee;
+}
+
+.b3 { /* cyan */
+	border-color: #a6ffff #00cccc #00cccc #a6ffff;
+}
+
+.b4 { /* magenta */
+	border-color: #fca6eb #c6009E #c6009E #fca6eb;
+}
+
+.b5 { /* yellow */
+	border-color: #ffffa6 #cccc00 #cccc00 #ffffa6;
+}
+
+.b6 { /* green */
+	border-color: #a6eeb4 #00a621 #00a621 #a6eeb4;
+}
+
+.b7 { /* blue */
+	border-color: #a6c9eb #004f9e #004f9e #a6c9eb;
+}
