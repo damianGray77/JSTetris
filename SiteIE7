@@ -1,0 +1,11 @@
+#pause, #game_over {
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cf000000,endColorstr=#cf000000);
+}
+
+#table {
+	display: inline;
+}
+
+#screen {
+	display: inline;
+}
