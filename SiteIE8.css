@@ -1,0 +1,3 @@
+#pause, #game_over {
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#cf000000,endColorstr=#cf000000);";
+}
